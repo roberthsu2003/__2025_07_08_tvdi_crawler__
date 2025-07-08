@@ -10,3 +10,5 @@ https://meet.google.com/rvq-smie-nnp
 - python class
 - python crawler
 - python window
+
+1. 學院修改1
