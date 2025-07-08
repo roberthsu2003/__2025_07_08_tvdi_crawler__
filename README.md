@@ -4,19 +4,4 @@
 **上課網址**
 https://meet.google.com/rvq-smie-nnp
 
-## Feature
 
-- python basic
-- python class
-- python crawler
-- python window
-
-1. 學院修改1
-2. 學院修改2
-3. 學院修改3
-
-1. 家裏修改1
-2. 家裏修改2
-3. 家裏修改3
-
-4. 學院變更4
