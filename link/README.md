@@ -15,3 +15,13 @@ https://youtube.com/live/u_jclmwj0Zc
 ## 2025_07_10_下午
 
 https://youtube.com/live/XtELvwmfUvE
+
+---
+
+## 2025_07_15_早上
+
+https://youtube.com/live/O3HwlRmW-fc
+
+## 2025_07_15_下午
+
+https://youtube.com/live/jl21qvvUSig
