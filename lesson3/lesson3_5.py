@@ -1,5 +1,6 @@
 import json
 from pprint import pprint
+import argparse
 
 class Site:
     def __init__(self,
@@ -45,6 +46,14 @@ def parse_sites_from_json(json_file):
     return site_list
 
 
-parsed_sites = parse_sites_from_json('aqx_p_488.json')
-for site in parsed_sites:
-    print(f"站點名稱: {site.sitename}, 所在縣市: {site.county}, AQI: {site.aqi}, 主要污染物: {site.pollutant}")
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='AQI 資料查詢 CLI')
+    parser.add_argument('-c', '--county', '--country', dest='county', help='過濾縣市名稱', default=None)
+    parser.add_argument('--file', '-f', help='JSON 檔案路徑', default='aqx_p_488.json')
+    args = parser.parse_args()
+
+    parsed_sites = parse_sites_from_json(args.file)
+    if args.county:
+        parsed_sites = [s for s in parsed_sites if s.county == args.county]
+    for site in parsed_sites:
+        print(f"站點名稱: {site.sitename}, 所在縣市: {site.county}, AQI: {site.aqi}, 主要污染物: {site.pollutant}")
