@@ -31,3 +31,7 @@ https://youtube.com/live/jl21qvvUSig
 ## 2025_07_17_早上
 
 https://www.youtube.com/watch?v=Lc7Ch9ZUU0Y
+
+## 2025_07_17_下午
+
+https://www.youtube.com/watch?v=AF5Q17ZSu7Q
