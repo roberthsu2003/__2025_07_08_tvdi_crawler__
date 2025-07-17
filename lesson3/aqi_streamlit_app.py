@@ -53,7 +53,7 @@ class Site:
         self.datacreationdate = datacreationdate
 
 @st.cache_data
-def load_aqi_data(json_file='lesson3/aqx_p_488.json'):
+def load_aqi_data(json_file='aqx_p_488.json'):
     """載入並解析AQI資料"""
     try:
         with open(json_file, 'r', encoding='utf-8') as file:
