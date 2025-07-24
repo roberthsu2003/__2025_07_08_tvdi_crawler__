@@ -48,3 +48,11 @@ https://www.youtube.com/watch?v=xZPb_rYmFn0
 ## 2025_07_22_下午
 
 https://www.youtube.com/watch?v=R94pgB1LLic
+
+---
+
+## 2025_07_24_早上
+https://www.youtube.com/watch?v=7UzSf4qK-e4
+
+## 2025_07_24_下午
+
