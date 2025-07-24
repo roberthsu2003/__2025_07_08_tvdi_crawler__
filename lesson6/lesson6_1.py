@@ -5,9 +5,9 @@ async def main():
     url = 'https://www.wantgoo.com/stock/2317/technical-chart'
     #建立一個BrowserConfig,讓chromium的瀏覽器顯示
     #BrowserConfig實體
-    
+
     browser_config = BrowserConfig(
-        headless=False
+        headless=True
     )
     stock_schema = {
         "name": "StockInfo",
