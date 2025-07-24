@@ -1,21 +1,9 @@
 import wantgoo
 import asyncio
-import twstock
 
-def get_stocks_with_twstock():
-    # 取得所有股票清單
-    stocks = twstock.codes
-    
-    stock_list = []
-    for code, info in stocks.items():
-        stock_list.append({
-            'code': code,
-            'name': info.name,
-            'market': info.market,
-            'group': info.group
-        })
-    
-    return stock_list
+
+
+
 
 def main():
     urls = [
@@ -38,8 +26,4 @@ def main():
 
 if __name__ == "__main__":
     #main()
-    for item in get_stocks_with_twstock():
-        # 只找尋股票代碼第1位數為2的股票,只要4個字元
-        if item['code'].startswith('2') and len(item['code']) == 4:
-            print(f"股票代碼: {item['code']}, 股票名稱: {item['name']}, 市場: {item['market']}, 分類: {item['group']}")
-        
+    print(wantgoo.get_stocks_with_twstock())
