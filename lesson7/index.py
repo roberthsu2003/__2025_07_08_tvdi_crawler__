@@ -36,9 +36,7 @@ class SimpleApp:
         left_frame = tk.Frame(root_left_frame)
         left_frame.pack(pady=10, padx=10,fill=tk.BOTH, expand=True)
 
-        # 建立rightFrame來包含選取股票的資訊
-        right_frame = tk.Frame(self.root)
-        right_frame.pack(side=tk.RIGHT, pady=10,padx=10,fill=tk.BOTH, expand=True)
+        
 
         # 增加left_frame內的內容
         self.scrollbar = tk.Scrollbar(left_frame)
@@ -57,12 +55,26 @@ class SimpleApp:
         self.stock_listbox.pack(side=tk.LEFT)
         self.scrollbar.config(command=self.stock_listbox.yview)
 
+        # 在左下方建立一個取消按鈕
+        # 取消按鈕的功能是取消self.stock_listbox的選取
+
+        cancel_button = tk.Button(root_left_frame, text="取消", command=self.clear_selection)
+        cancel_button.pack(side=tk.BOTTOM, pady=10)
+
+        # 建立root_right_frame來包含選取股票的資訊
+        root_right_frame = tk.Frame(self.root)
+        root_right_frame.pack(side=tk.RIGHT, pady=10,padx=10,fill=tk.BOTH, expand=True)
+
         # 在右側顯示選取的股票資訊
-        self.selected_label = tk.Label(right_frame, text="選取的股票資訊", font=("Arial", 16, "bold"))
+        self.selected_label = tk.Label(root_right_frame, text="選取的股票資訊", font=("Arial", 16, "bold"))
         self.selected_label.pack(pady=10)
 
 
     
+
+
+    def clear_selection(self):
+        self.stock_listbox.selection_clear(0, tk.END)
 
 
 if __name__ == "__main__":
