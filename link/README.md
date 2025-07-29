@@ -59,6 +59,9 @@ https://www.youtube.com/watch?v=xA84J9IG8pk
 
 ---
 
+## 2025_07_29_早上
+https://youtube.com/live/UV443rSHz7Q
+
 ## 2025_07_29_下午
 https://www.youtube.com/watch?v=MMUqem-gtbg
 
