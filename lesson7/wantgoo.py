@@ -10,7 +10,7 @@ from crawl4ai import (AsyncWebCrawler,
                       SemaphoreDispatcher,RateLimiter,
                       )
 
-async def get_stock_data(urls)-> list[dict]:
+async def get_stock_data(urls:list[str])-> list[dict]:
     """
     非同步地從一組網址列表抓取股票資料，使用無頭的Chromium瀏覽器。
 

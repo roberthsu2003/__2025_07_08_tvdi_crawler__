@@ -1,10 +1,7 @@
 import tkinter as tk
-from tkinter import messagebox
+import asyncio
+import wantgoo
 
-try:
-    import wantgoo
-except ImportError:
-    raise ImportError("請確保已安裝 wantgoo 模組，或將 wantgoo.py 放在相同目錄下。")
 
 class SimpleApp:
     def __init__(self, root):
@@ -105,9 +102,14 @@ class SimpleApp:
         """開始爬蟲"""
         # 在這裡可以加入爬蟲邏輯
         # 例如: wantgoo.crawl_stocks(self.selected_stocks)
-        messagebox.showinfo("資訊", f"開始爬取以下股票: {', '.join(self.selected_stocks)}")
+        urls:list[str] = []
+        for info in self.selected_stocks:
+            code, name = info.split(' - ')
+            url_template = f'https://www.wantgoo.com/stock/{code}/technical-chart'
+            urls.append(url_template)
+        result:list[dict] = asyncio.run(wantgoo.get_stock_data(urls))
+        print(f"爬取到的股票資料: {result}")
 
-    
 
 
 if __name__ == "__main__":
