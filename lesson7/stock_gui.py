@@ -207,10 +207,7 @@ class StockCrawlerGUI:
             urls = [f"https://www.wantgoo.com/stock/{code}/technical-chart" for code in stock_codes]
             
             # 執行異步爬蟲
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            results = loop.run_until_complete(wantgoo.get_stock_data(urls))
-            loop.close()
+            results = asyncio.run(wantgoo.get_stock_data(urls))
             
             # 在主線程中更新結果
             self.root.after(0, lambda: self.display_results(results))
