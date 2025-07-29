@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 
 try:
     import wantgoo
@@ -65,16 +66,29 @@ class SimpleApp:
         # 建立root_right_frame來包含選取股票的資訊
         root_right_frame = tk.Frame(self.root)
         root_right_frame.pack(side=tk.RIGHT, pady=10,padx=10,fill=tk.BOTH, expand=True)
-
         # 在右側顯示選取的股票資訊
-        self.selected_button = tk.Button(root_right_frame, text="選取的股票數量是0筆", font=("Arial"),state=tk.DISABLED)
-        self.selected_button.pack(pady=10)    
+        # 增加self.selected_button按鈕click功能
+        self.selected_button = tk.Button(
+            root_right_frame,
+            text="選取的股票數量是0筆",
+            font=("Arial", 12, "bold"))
+        self.selected_button.pack(pady=10, padx=10, fill=tk.X, expand=True)
+        self.selected_button.config(state=tk.DISABLED)
+        self.selected_button.bind("<Button-1>", self.start_crawling)
 
-    
     def on_stock_select(self, _=None):
         """當股票被選取時，更新右側顯示的資訊"""
-        self.selected_stocks = [self.stock_listbox.get(i) for i in self.stock_listbox.curselection()]
-        print(f"選取的股票: {self.selected_stocks}")
+        self.selected_stocks = [self.stock_listbox.get(i) for i in self.stock_listbox.curselection()]        
+        self.selected_button.config(text=f"選取的股票數量是:{len(self.selected_stocks)}筆")
+        if len(self.selected_stocks) == 0:
+            self.selected_button.config(state=tk.DISABLED)
+        else:
+            self.selected_button.config(state=tk.NORMAL)
+
+    def on_selected_button_click(self):
+                
+        """當股票被選取時，更新右側顯示的資訊"""
+        self.selected_stocks = [self.stock_listbox.get(i) for i in self.stock_listbox.curselection()]        
         self.selected_button.config(text=f"選取的股票數量是:{len(self.selected_stocks)}筆")
         if len(self.selected_stocks) == 0:
             self.selected_button.config(state=tk.DISABLED)
@@ -85,6 +99,13 @@ class SimpleApp:
     def clear_selection(self):
         """清除選取的股票資訊"""
         self.stock_listbox.selection_clear(0, tk.END)
+        self.on_stock_select()  # 更新右側顯示的資訊
+
+    def start_crawling(self, event=None):
+        """開始爬蟲"""
+        # 在這裡可以加入爬蟲邏輯
+        # 例如: wantgoo.crawl_stocks(self.selected_stocks)
+        messagebox.showinfo("資訊", f"開始爬取以下股票: {', '.join(self.selected_stocks)}")
 
     
 
