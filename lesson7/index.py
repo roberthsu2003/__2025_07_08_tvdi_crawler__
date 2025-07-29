@@ -67,19 +67,19 @@ class SimpleApp:
         root_right_frame.pack(side=tk.RIGHT, pady=10,padx=10,fill=tk.BOTH, expand=True)
 
         # 在右側顯示選取的股票資訊
-        self.selected_label = tk.Label(root_right_frame, text="選取的股票資訊", font=("Arial"))
-        self.selected_label.pack(pady=10)
-
-
-    
-
+        self.selected_button = tk.Button(root_right_frame, text="選取的股票數量是0筆", font=("Arial"),state=tk.DISABLED)
+        self.selected_button.pack(pady=10)    
 
     
-    def on_stock_select(self, event):
+    def on_stock_select(self, _=None):
         """當股票被選取時，更新右側顯示的資訊"""
         self.selected_stocks = [self.stock_listbox.get(i) for i in self.stock_listbox.curselection()]
         print(f"選取的股票: {self.selected_stocks}")
-        self.selected_label.config(text=f"選取的股票數量是:{len(self.selected_stocks)}筆")
+        self.selected_button.config(text=f"選取的股票數量是:{len(self.selected_stocks)}筆")
+        if len(self.selected_stocks) == 0:
+            self.selected_button.config(state=tk.DISABLED)
+        else:
+            self.selected_button.config(state=tk.NORMAL)
 
 
     def clear_selection(self):
