@@ -23,17 +23,19 @@ class SimpleApp:
         self.label = tk.Label(self.root, text="即時股票資訊", font=("Arial", 20, "bold"))
         self.label.pack(pady=20)        
         
-        # 建立框架來包含 listbox 和 scrollbar
-        frame = tk.Frame(self.root)
-        frame.pack(pady=10, fill=tk.BOTH, expand=True)
-        
-        # 建立捲動列
-        self.scrollbar = tk.Scrollbar(frame)
+        # 建立leftFrame來包含 listbox 和 scrollbar
+        left_frame = tk.Frame(self.root)
+        left_frame.pack(side=tk.LEFT,pady=10, padx=10,fill=tk.BOTH, expand=True)
+
+        # 建立rightFrame來包含選取股票的資訊
+        right_frame = tk.Frame(self.root)
+        right_frame.pack(side=tk.RIGHT, pady=10,padx=10,fill=tk.BOTH, expand=True)
+
+        # 增加left_frame內的內容
+        self.scrollbar = tk.Scrollbar(left_frame)
         self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-        
-        #self.stock_listbox無法改變寬度,width=50沒有作用
-        
-        self.stock_listbox = tk.Listbox(frame,
+
+        self.stock_listbox = tk.Listbox(left_frame,
                                         selectmode=tk.MULTIPLE,
                                         yscrollcommand=self.scrollbar.set,
                                         width=15,
@@ -45,6 +47,10 @@ class SimpleApp:
             
         self.stock_listbox.pack(side=tk.LEFT)
         self.scrollbar.config(command=self.stock_listbox.yview)
+
+        # 在右側顯示選取的股票資訊
+        self.selected_label = tk.Label(right_frame, text="選取的股票資訊", font=("Arial", 16, "bold"))
+        self.selected_label.pack(pady=10)
 
 
     
