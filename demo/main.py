@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, font
+from tkinter import ttk, font, messagebox
 import asyncio
 import threading
 import queue
@@ -146,7 +146,7 @@ class StockTickerAppV7(tk.Tk):
         if not stock_codes:
             self.update_status_bar()
             return
-        urls = [f"https://www.wantgoo.com/stock/{code}" for code in stock_codes]
+        urls = [f"https://www.wantgoo.com/stock/{code}/technical-chart" for code in stock_codes]
         threading.Thread(target=self._fetch_stock_data_worker, args=(urls,), daemon=True).start()
 
     def _fetch_stock_data_worker(self, urls):
@@ -177,17 +177,26 @@ class StockTickerAppV7(tk.Tk):
                 sorted_iids = sorted(self.treeview_stocks.values(), key=lambda iid: self.tree.index(iid))
                 for i, iid in enumerate(sorted_iids):
                     current_values = self.tree.item(iid)['values']
-                    code = current_values[0]
+                    code = str(current_values[0])  # 確保轉換為字符串以匹配爬蟲返回的鍵
                     stock_data = stock_data_map.get(code)
                     row_tag = 'oddrow' if i % 2 else 'evenrow'
                     color_tag = ''
                     if stock_data:
                         try:
-                            change_value = float(stock_data.get('漲跌', '0'))
-                            if change_value > 0:
-                                color_tag = 'up'
-                            elif change_value < 0:
-                                color_tag = 'down'
+                            change_str = stock_data.get('漲跌', '0')
+                            # 處理帶有 +/- 符號的字符串
+                            if change_str.startswith('+'):
+                                change_value = float(change_str[1:])
+                                color_tag = 'up'  # 上漲用紅色
+                            elif change_str.startswith('-'):
+                                change_value = float(change_str[1:])
+                                color_tag = 'down'  # 下跌用綠色
+                            else:
+                                change_value = float(change_str)
+                                if change_value > 0:
+                                    color_tag = 'up'  # 上漲用紅色
+                                elif change_value < 0:
+                                    color_tag = 'down'  # 下跌用綠色
                         except (ValueError, TypeError):
                             pass
                         values = [stock_data.get(col, "-") for col in self.columns]
