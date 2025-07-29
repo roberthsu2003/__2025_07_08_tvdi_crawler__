@@ -23,9 +23,18 @@ class SimpleApp:
         self.label = tk.Label(self.root, text="即時股票資訊", font=("Arial", 20, "bold"))
         self.label.pack(pady=20)        
         
+        # 建立root_left_frame來包含左側的內容 
+        root_left_frame = tk.Frame(self.root)
+        root_left_frame.pack(side=tk.LEFT, pady=10, padx=10, fill=tk.BOTH, expand=True)
+
+        # 建立左側的標題
+        # left_title的文字靠左        
+        left_title = tk.Label(root_left_frame, text="請選擇股票(可多選)", font=("Arial"), anchor="w", justify="left")
+        left_title.pack(pady=(10,0), fill=tk.X,padx=10)
+
         # 建立leftFrame來包含 listbox 和 scrollbar
-        left_frame = tk.Frame(self.root)
-        left_frame.pack(side=tk.LEFT,pady=10, padx=10,fill=tk.BOTH, expand=True)
+        left_frame = tk.Frame(root_left_frame)
+        left_frame.pack(pady=10, padx=10,fill=tk.BOTH, expand=True)
 
         # 建立rightFrame來包含選取股票的資訊
         right_frame = tk.Frame(self.root)
