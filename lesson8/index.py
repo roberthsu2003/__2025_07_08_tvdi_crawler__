@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 import asyncio
 import threading
 import wantgoo
@@ -79,6 +80,54 @@ class SimpleApp:
             command=lambda: threading.Thread(target=self.start_crawling, daemon=True).start()
         )
         self.selected_button.pack(pady=10, padx=10, fill=tk.X, expand=True)
+
+        # 新增1個Label,顯示`爬蟲結果`
+        self.result_label = tk.Label(root_right_frame, text="爬蟲結果:", font=("Arial", 12))
+        self.result_label.pack(pady=10, padx=10, fill=tk.X, expand=True)
+        # 這是爬蟲得到的結果
+        #  [{'日期時間': '2025-07-31 12:34', '股票號碼': '2067', '股票名稱': '嘉鋼', '即時價格': '7.76', '漲跌': '0.51', '漲跌百分比': '7.03%', '開盤價': '7.20', '最高價': '7.77', '成交量(張)': '4', '最低價': '7.20', '前一日收盤價': '7.25'}]
+        # self.stock_info_tree = 依照爬蟲結果顯示股票資訊的 Treeview
+        
+        tree_frame = tk.Frame(root_right_frame)
+        tree_frame.pack(pady=10, padx=10, fill=tk.BOTH, expand=True)
+
+        # 建立 Treeview
+        self.stock_info_tree = ttk.Treeview(tree_frame, columns=("股票號碼", "股票名稱", "即時價格", "漲跌", "漲跌百分比", "開盤價", "最高價", "最低價"), show="headings", height=10)
+
+        # 設定欄位標題
+        self.stock_info_tree.heading("股票號碼", text="股票號碼")
+        self.stock_info_tree.heading("股票名稱", text="股票名稱")
+        self.stock_info_tree.heading("即時價格", text="即時價格")
+        self.stock_info_tree.heading("漲跌", text="漲跌")
+        self.stock_info_tree.heading("漲跌百分比", text="漲跌百分比")
+        self.stock_info_tree.heading("開盤價", text="開盤價")
+        self.stock_info_tree.heading("最高價", text="最高價")
+        self.stock_info_tree.heading("最低價", text="最低價")
+
+        # 設定欄位寬度
+        self.stock_info_tree.column("股票號碼", width=80, anchor="center")
+        self.stock_info_tree.column("股票名稱", width=100, anchor="w")
+        self.stock_info_tree.column("即時價格", width=80, anchor="e")
+        self.stock_info_tree.column("漲跌", width=70, anchor="e")
+        self.stock_info_tree.column("漲跌百分比", width=90, anchor="e")
+        self.stock_info_tree.column("開盤價", width=70, anchor="e")
+        self.stock_info_tree.column("最高價", width=70, anchor="e")
+        self.stock_info_tree.column("最低價", width=70, anchor="e")
+
+        # 建立垂直滾動條
+        tree_scrollbar = ttk.Scrollbar(tree_frame, orient="vertical", command=self.stock_info_tree.yview)
+        self.stock_info_tree.configure(yscrollcommand=tree_scrollbar.set)
+
+        # 包裝 treeview 和 scrollbar
+        self.stock_info_tree.pack(side="left", fill="both", expand=True)
+        tree_scrollbar.pack(side="right", fill="y")
+
+        # 當 self.start_crawling 被呼叫時，爬蟲的結果會顯示在這個 Treeview 中
+
+        
+
+
+
     def on_stock_select(self, event=None):
         """當股票被選取時，更新右側顯示的資訊"""
         # 直接用 index 取得原始 dict
@@ -91,6 +140,10 @@ class SimpleApp:
     def start_crawling(self, event=None):
         """開始爬蟲"""
         self.selected_button.config(state=tk.DISABLED)
+        # 清空現有的資料
+        for item in self.stock_info_tree.get_children():
+            self.stock_info_tree.delete(item)
+        
         try:
             # 在這裡可以加入爬蟲邏輯
             # 例如: wantgoo.crawl_stocks(self.selected_stocks)
@@ -101,6 +154,21 @@ class SimpleApp:
                 urls.append(url_template)
             result:list[dict] = asyncio.run(wantgoo.get_stock_data(urls))
             print(f"爬取到的股票資料: {result}")
+            
+            # 將結果顯示到 Treeview 中
+            if result:
+                for stock_data in result:
+                    if isinstance(stock_data, dict):
+                        self.stock_info_tree.insert("", "end", values=(
+                            stock_data.get('股票號碼', ''),
+                            stock_data.get('股票名稱', ''),
+                            stock_data.get('即時價格', ''),
+                            stock_data.get('漲跌', ''),
+                            stock_data.get('漲跌百分比', ''),
+                            stock_data.get('開盤價', ''),
+                            stock_data.get('最高價', ''),
+                            stock_data.get('最低價', '')
+                        ))
         except Exception as e:
             print(f"爬蟲過程中發生錯誤: {e}")
         finally:
