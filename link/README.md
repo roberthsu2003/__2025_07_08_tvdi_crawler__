@@ -71,6 +71,6 @@ https://www.youtube.com/watch?v=MMUqem-gtbg
 https://www.youtube.com/watch?v=o_nqYRFmjK4
 
 ## 2025_07_31_下午
-
+https://youtube.com/live/fNZktGNzrtQ
 
 
