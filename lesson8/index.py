@@ -76,10 +76,10 @@ class SimpleApp:
             text="選取的股票數量是0筆",
             font=("Arial", 12, "bold"),
             state=tk.DISABLED,
-            command=lambda: threading.Thread(target=self.start_crawling).start()
+            command=lambda: threading.Thread(target=self.start_crawling, daemon=True).start()
         )
         self.selected_button.pack(pady=10, padx=10, fill=tk.X, expand=True)
-    def on_stock_select(self, _=None):
+    def on_stock_select(self, event=None):
         """當股票被選取時，更新右側顯示的資訊"""
         # 直接用 index 取得原始 dict
         self.selected_stocks = [self.stock_display_list[i] for i in self.stock_listbox.curselection()]
