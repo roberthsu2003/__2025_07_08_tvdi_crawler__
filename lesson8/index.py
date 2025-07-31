@@ -148,10 +148,10 @@ class SimpleApp:
         # 取得當前在 listbox 中選取的股票
         current_selected = [self.stock_display_list[i] for i in self.stock_listbox.curselection()]
         
-        # 建立一個新的選取清單，保留之前選取但不在當前顯示清單中的股票
+        # 建立一個新的選取清單
         new_selected_stocks = []
         
-        # 先加入之前選取但不在當前顯示清單中的股票
+        # 先加入之前選取但不在當前顯示清單中的股票（這些股票被搜尋過濾掉了）
         for prev_stock in self.selected_stocks:
             is_in_current_display = False
             for display_stock in self.stock_display_list:
@@ -161,7 +161,7 @@ class SimpleApp:
             if not is_in_current_display:
                 new_selected_stocks.append(prev_stock)
         
-        # 再加入當前選取的股票
+        # 再加入當前在 listbox 中選取的股票
         for current_stock in current_selected:
             # 避免重複加入
             is_already_selected = False
