@@ -76,7 +76,7 @@ class SimpleApp:
             text="選取的股票數量是0筆",
             font=("Arial", 12, "bold"),
             state=tk.DISABLED,
-            command=self.start_crawling
+            command=lambda: threading.Thread(target=self.start_crawling).start()
         )
         self.selected_button.pack(pady=10, padx=10, fill=tk.X, expand=True)
     def on_stock_select(self, _=None):
