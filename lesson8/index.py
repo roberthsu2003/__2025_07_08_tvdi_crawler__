@@ -79,15 +79,13 @@ class SimpleApp:
             state=tk.DISABLED,
             command=lambda: threading.Thread(target=self.start_crawling, daemon=True).start()
         )
-        self.selected_button.pack(pady=10, padx=10, fill=tk.X, expand=True)
+        self.selected_button.pack(pady=(10,0), padx=10, fill=tk.X)
 
-        # 新增1個Label,顯示`爬蟲結果`
-        self.result_label = tk.Label(root_right_frame, text="爬蟲結果:", font=("Arial", 12))
-        self.result_label.pack(pady=10, padx=10, fill=tk.X, expand=True)
-        # 這是爬蟲得到的結果
-        #  [{'日期時間': '2025-07-31 12:34', '股票號碼': '2067', '股票名稱': '嘉鋼', '即時價格': '7.76', '漲跌': '0.51', '漲跌百分比': '7.03%', '開盤價': '7.20', '最高價': '7.77', '成交量(張)': '4', '最低價': '7.20', '前一日收盤價': '7.25'}]
-        # self.stock_info_tree = 依照爬蟲結果顯示股票資訊的 Treeview
-        
+        # 顯示爬蟲結果，並且靠右對齊
+        self.result_label = tk.Label(root_right_frame, text="爬蟲結果:", font=("Arial", 12), anchor="w", justify="right")
+        self.result_label.pack(pady=10, padx=10, fill=tk.X)
+
+
         tree_frame = tk.Frame(root_right_frame)
         tree_frame.pack(pady=10, padx=10, fill=tk.BOTH, expand=True)
 
