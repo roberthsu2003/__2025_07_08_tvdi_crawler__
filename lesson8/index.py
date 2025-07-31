@@ -145,8 +145,34 @@ class SimpleApp:
 
     def on_stock_select(self, event=None):
         """當股票被選取時，更新右側顯示的資訊"""
-        # 直接用 index 取得原始 dict
-        self.selected_stocks = [self.stock_display_list[i] for i in self.stock_listbox.curselection()]
+        # 取得當前在 listbox 中選取的股票
+        current_selected = [self.stock_display_list[i] for i in self.stock_listbox.curselection()]
+        
+        # 建立一個新的選取清單，保留之前選取但不在當前顯示清單中的股票
+        new_selected_stocks = []
+        
+        # 先加入之前選取但不在當前顯示清單中的股票
+        for prev_stock in self.selected_stocks:
+            is_in_current_display = False
+            for display_stock in self.stock_display_list:
+                if prev_stock['code'] == display_stock['code']:
+                    is_in_current_display = True
+                    break
+            if not is_in_current_display:
+                new_selected_stocks.append(prev_stock)
+        
+        # 再加入當前選取的股票
+        for current_stock in current_selected:
+            # 避免重複加入
+            is_already_selected = False
+            for selected_stock in new_selected_stocks:
+                if current_stock['code'] == selected_stock['code']:
+                    is_already_selected = True
+                    break
+            if not is_already_selected:
+                new_selected_stocks.append(current_stock)
+        
+        self.selected_stocks = new_selected_stocks
         self.selected_button.config(text=f"選取的股票數量是:{len(self.selected_stocks)}筆")
         if len(self.selected_stocks) == 0:
             self.selected_button.config(state=tk.DISABLED)
@@ -225,6 +251,9 @@ class SimpleApp:
         
         # 重新填充股票清單
         self.populate_stock_list()
+        
+        # 搜尋後恢復之前選取的股票
+        self.restore_selection()
 
     def clear_search(self):
         """清除搜尋 - 不清除已選取的股票"""
